@@ -1,0 +1,53 @@
+@model MyLoginApp.Models.LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <link rel="stylesheet" href="~/css/login.css" />
+</head>
+<body>
+    <div class="background">
+        <button id="themeToggle">T</button>
+
+        <div class="login-box">
+            <img src="https://www.svgrepo.com/download/530586/bank.svg" class="logo-img" alt="Logo" style="width: 80px; display: block; margin: 0 auto 20px auto; filter: invert(1);" />
+            <form asp-action="Index" method="post">
+                
+                <div class="form-group">
+                    <label asp-for="Username"></label>
+                    <input asp-for="Username" type="text" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <button type="submit">Login</button>
+
+                <div class="validation-summary-errors">
+                    @Html.ValidationSummary()
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById("themeToggle");
+        toggleBtn.addEventListener("click", () => {
+            document.body.classList.toggle("light-theme");
+        });
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>
