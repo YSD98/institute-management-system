@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MyLoginApp.Models
+namespace IMS.Models
 {
     public class LoginModel
     {

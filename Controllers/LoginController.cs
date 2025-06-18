@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using MyLoginApp.Models;
+using IMS.Models;
 
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 
-namespace MyLoginApp.Controllers
+namespace IMS.Controllers
 {
     public class LoginController : Controller
     {
@@ -39,7 +39,7 @@ namespace MyLoginApp.Controllers
                         new ClaimsPrincipal(claimsIdentity),
                         authProperties);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Dashboard");
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid username or password.");

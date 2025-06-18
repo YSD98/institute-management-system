@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MyLoginApp.Controllers
+namespace IMS.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class DashboardController : Controller
     {
         public IActionResult Index()
         {
+            ViewData["Title"] = "Dashboard";
             return View();
         }
     }

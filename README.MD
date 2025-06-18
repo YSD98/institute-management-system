@@ -1,13 +1,15 @@
+
 # 🎓 Institute Management System
 
-A secure and responsive **ASP.NET Core MVC** application designed for managing user authentication and access for educational institutions.
+A secure and responsive **ASP.NET Core MVC** application designed for managing users and access for educational institutions.
 
 This project demonstrates:
 
 - 🔐 Cookie-based user login system
-- 🌗 Theme toggle with light/dark mode
+- 📋 Full CRUD operations for Users
 - 👨‍🏫 Dashboard access restricted to logged-in users
-- 💻 Clean, modern UI built with Razor Pages & CSS
+- 🌗 Theme toggle with light/dark mode (future scope)
+- 💻 Clean, modern UI built with Razor Views + Bootstrap
 
 ---
 
@@ -15,18 +17,18 @@ This project demonstrates:
 
 - ASP.NET Core MVC (.NET 8+)
 - Razor Views + Model Binding
-- Secure authentication using ASP.NET Core Cookie Authentication
+- Secure login via Cookie Authentication
+- CRUD for users with EF Core & SQLite
 - Session-based login and route protection
-- Theme toggle: dark/light mode UI
-- Fully responsive design
+- Responsive Bootstrap layout
 
 ---
 
 ## 📦 Requirements
 
 - [.NET 8 or 9 SDK](https://dotnet.microsoft.com/en-us/download)
-- Visual Studio 2022+ or Visual Studio Code
-- (Optional) SQL Server Express / LocalDB (for future DB integration)
+- Visual Studio Code (Recommended)
+- SQLite (default, no setup required)
 
 ---
 
@@ -38,15 +40,27 @@ This project demonstrates:
    ```bash
    git clone https://github.com/ysd98/InstituteManagementSystem.git
    cd InstituteManagementSystem
-2. Restore Dependencies
-    ```bash
-    dotnet restore
-3. Run the App
-    ```bash
-    dotnet run
-4. Open in your browser:
-    ```bash
-    http://localhost:xxxx
+   ```
+
+2. **Restore Dependencies**
+   ```bash
+   dotnet restore
+   ```
+
+3. **Apply Migrations & Create DB**
+   ```bash
+   dotnet ef database update
+   ```
+
+4. **Run the App**
+   ```bash
+   dotnet run
+   ```
+
+5. Open in your browser:
+   ```bash
+   http://localhost:5199
+   ```
 
 ## 🔐 Default Login
 Use the following hardcoded credentials to log in:
@@ -56,59 +70,64 @@ Username: admin
 Password: admin123
 ```
 
-🔒 Access to the /Home route is restricted unless you're logged in.
+🔒 Access to the dashboard is restricted unless you're logged in.
 
 ---
+
 ## 🧠 How Authentication Works
-- ✅ Login form posts to LoginController
 
-- ✅ On successful login, cookie is issued via SignInAsync
-
-- 🔒 [Authorize] attribute protects the HomeController
-
-- ❌ Trying to visit /Home without login redirects you to /Login
+- ✅ Login form posts to `LoginController`
+- ✅ On successful login, cookie is issued via `SignInAsync`
+- 🔒 `[Authorize]` attribute protects all secure routes
+- ❌ Unauthorized users are redirected to `/Login`
 
 ---
 
 ## 📁 Project Structure
-```pgsql
+
+```text
 InstituteManagementSystem/
 ├── Controllers/
 │   ├── LoginController.cs
-│   └── HomeController.cs
+│   ├── DashboardController.cs
+│   └── UserController.cs
 ├── Models/
-│   └── LoginModel.cs
+│   └── User.cs
 ├── Views/
-│   ├── Login/Index.cshtml
-│   └── Home/Index.cshtml
+│   ├── Login/
+│   ├── Dashboard/
+│   └── User/ (Index, Create, Edit, Delete)
+├── Data/
+│   └── AppDbContext.cs
 ├── wwwroot/
-│   └── css/login.css
+│   └── css/site.css
 ├── Program.cs
-├── Startup.cs (if applicable)
 ├── appsettings.json
 └── README.md
 ```
+
 ---
 
-## ✅ Project Features Checklist
+## ✅ Features Checklist
 
 - [x] Login system using cookie authentication  
-- [x] Light/dark theme toggle  
-- [ ] 🗃 Add SQL Server database + EF Core integration  
-- [ ] 📋 Add student/course management modules  
-- [ ] 🔐 Role-based access (admin, student, teacher)  
-- [ ] 📧 Email-based password recovery  
-- [ ] 📊 Admin dashboard with stats/charts  
-- [ ] 🧪 Add unit tests & validation  
+- [x] Full CRUD functionality with Entity Framework Core  
+- [x] SQLite database integration  
+- [x] Responsive layout with fixed header & footer  
+- [ ] Theme toggle: dark/light mode (planned)  
+- [ ] Role-based access (admin, student, teacher)  
+- [ ] Email/password recovery (future)  
+- [ ] Dashboard stats & analytics (future)  
 
 ---
-## 🧪 Sample Code Snippets
+
+## 🧪 Sample Code
 
 ### 🔒 Protecting Routes
 
 ```csharp
 [Authorize]
-public class HomeController : Controller
+public class DashboardController : Controller
 {
     public IActionResult Index()
     {
@@ -116,9 +135,10 @@ public class HomeController : Controller
     }
 }
 ```
-### ✅ Checking Login in Controller
 
-```chashrp
+### ✅ Login Validation Logic
+
+```csharp
 if (model.Username == "admin" && model.Password == "admin123")
 {
     var claims = new List<Claim>
@@ -130,11 +150,13 @@ if (model.Username == "admin" && model.Password == "admin123")
     var principal = new ClaimsPrincipal(identity);
     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-    return RedirectToAction("Index", "Home");
+    return RedirectToAction("Index", "Dashboard");
 }
 ```
+
 ---
 
 # 🙌 Contributing
-Got ideas or improvements? Feel free to fork and submit a pull request.
-Make sure to open an issue before making major changes.
+
+Got suggestions or improvements? Fork the repo and create a pull request.
+Open an issue before submitting large changes.

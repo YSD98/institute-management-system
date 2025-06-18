@@ -1,4 +1,4 @@
-namespace MyFirstMVCapp.Models;
+namespace IMS.Models;
 
 public class ErrorViewModel
 {
