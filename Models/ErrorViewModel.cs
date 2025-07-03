@@ -1,4 +1,4 @@
-namespace IMS.Models;
+namespace INSTITUTE_MANAGEMENT_SYSTEM.Models;
 
 public class ErrorViewModel
 {
